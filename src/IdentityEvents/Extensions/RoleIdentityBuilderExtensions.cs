@@ -78,12 +78,11 @@ public static class RoleIdentityBuilderExtensions
         }
 
         var managerType = typeof(RoleManager<TRole>);
-        var managerServiceDescriptor = builder.Services.Last(service => service.ServiceType == managerType);
-        var implementationType = managerServiceDescriptor.ImplementationType!;
+        var managerDescriptor = builder.Services.Last(service => service.ServiceType == managerType);
 
         builder.Services.AddScoped<RoleManager<TRole>>(sp =>
         {
-            var target = (RoleManager<TRole>)ActivatorUtilities.CreateInstance(sp, implementationType);
+            var target = (RoleManager<TRole>)managerDescriptor.CreateInstance(sp);
             var eventHandler = eventHandlerFactory(sp);
 
             return new EnhancedRoleManager<TRole>(target, eventHandler);

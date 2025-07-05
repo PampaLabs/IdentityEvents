@@ -73,12 +73,11 @@ public static class UserIdentityBuilderExtensions
         }
 
         var managerType = typeof(UserManager<TUser>);
-        var managerServiceDescriptor = builder.Services.Last(service => service.ServiceType == managerType);
-        var implementationType = managerServiceDescriptor.ImplementationType!;
+        var managerDescriptor = builder.Services.Last(service => service.ServiceType == managerType);
 
         builder.Services.AddScoped<UserManager<TUser>>(sp =>
         {
-            var target = (UserManager<TUser>)ActivatorUtilities.CreateInstance(sp, implementationType);
+            var target = (UserManager<TUser>)managerDescriptor.CreateInstance(sp);
             var eventHandler = eventHandlerFactory(sp);
 
             return new EnhancedUserManager<TUser>(target, eventHandler);
