@@ -6,8 +6,6 @@
 
     <PropertyGroup>
         <PackageId>IdentityEvents</PackageId>
-        <Version>1.0.0</Version>
-        <PackageVersion>$(Version)</PackageVersion>
         <PackageTags>Identity</PackageTags>
         <Description>This package provides support for identity events.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
